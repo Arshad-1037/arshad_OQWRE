@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AOQRWE — Advanced Online Quiz System</title>
+  <meta name="description" content="AOQRWE — Advanced Online Quiz System with Real-time Evaluation. Students take timed quizzes, admins manage subjects and questions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-shapes" aria-hidden="true">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <!-- ========== TOP HEADER NAV ========== -->
+  <header class="top-nav glass-panel" id="topNav">
+    <div class="nav-brand">
+      <span class="brand-logo neon-text">AOQRWE</span>
+    </div>
+    <div class="nav-actions" id="navActions">
+      <!-- Populated by JS based on auth state -->
+    </div>
+  </header>
+
+  <!-- ========== MAIN APP ROOT ========== -->
+  <main class="app-container" id="appRoot">
+    <!-- All pages rendered here by JS -->
+  </main>
+
+  <!-- ========== AUTH MODAL ========== -->
+  <div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-label="Login / Register">
+    <div class="modal-content glass-panel">
+      <button class="close-modal" id="closeAuthModal" aria-label="Close">&times;</button>
+
+      <!-- Role Tabs -->
+      <div class="auth-tabs">
+        <button class="tab-btn active" data-tab="student" id="tabStudent">
+          <i class="fas fa-user-graduate"></i> Student
+        </button>
+        <button class="tab-btn" data-tab="admin" id="tabAdmin">
+          <i class="fas fa-shield-alt"></i> Admin
+        </button>
+      </div>
+
+      <!-- Student Section -->
+      <div class="auth-section active" id="studentSection">
+        <div class="auth-switch">
+          <span class="auth-toggle active" data-form="studentLogin">Login</span>
+          <span class="auth-toggle" data-form="studentRegister">Register</span>
+        </div>
+
+        <!-- Student Login -->
+        <form id="studentLoginForm" class="auth-form active" novalidate>
+          <div class="form-group">
+            <i class="fas fa-envelope text-icon"></i>
+            <input type="email" id="sLoginEmail" placeholder="Email Address" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock text-icon"></i>
+            <input type="password" id="sLoginPass" placeholder="Password" required autocomplete="current-password" />
+          </div>
+          <div class="form-error" id="sLoginErr"></div>
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
+        <!-- Student Register -->
+        <form id="studentRegisterForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <i class="fas fa-user text-icon"></i>
+            <input type="text" id="sRegName" placeholder="Full Name" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-envelope text-icon"></i>
+            <input type="email" id="sRegEmail" placeholder="Email Address" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock text-icon"></i>
+            <input type="password" id="sRegPass" placeholder="Create Password" required autocomplete="new-password" />
+          </div>
+          <div class="form-error" id="sRegErr"></div>
+          <button type="submit" class="btn btn-secondary btn-block">Create Account</button>
+        </form>
+      </div>
+
+      <!-- Admin Section -->
+      <div class="auth-section" id="adminSection">
+        <div class="auth-switch">
+          <span class="auth-toggle active" data-form="adminLogin">Login</span>
+          <span class="auth-toggle" data-form="adminRegister">Register</span>
+        </div>
+
+        <!-- Admin Login -->
+        <form id="adminLoginForm" class="auth-form active" novalidate>
+          <div class="form-group">
+            <i class="fas fa-user-shield text-icon"></i>
+            <input type="email" id="aLoginEmail" placeholder="Admin Email" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock text-icon"></i>
+            <input type="password" id="aLoginPass" placeholder="Admin Password" required autocomplete="current-password" />
+          </div>
+          <div class="form-error" id="aLoginErr"></div>
+          <button type="submit" class="btn btn-admin btn-block">
+            <i class="fas fa-shield-alt"></i> Admin Secure Login
+          </button>
+        </form>
+
+        <!-- Admin Register -->
+        <form id="adminRegisterForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <i class="fas fa-user text-icon"></i>
+            <input type="text" id="aRegName" placeholder="Full Name" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-envelope text-icon"></i>
+            <input type="email" id="aRegEmail" placeholder="Admin Email" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <i class="fas fa-lock text-icon"></i>
+            <input type="password" id="aRegPass" placeholder="Create Password" required autocomplete="new-password" />
+          </div>
+          <div class="form-error" id="aRegErr"></div>
+          <button type="submit" class="btn btn-admin btn-block">Register Admin Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ROLE SELECTION MODAL (after clicking Start) ========== -->
+  <div class="modal-overlay" id="roleModal" role="dialog" aria-modal="true" aria-label="Select Role">
+    <div class="modal-content glass-panel text-center" style="max-width:380px;">
+      <button class="close-modal" id="closeRoleModal" aria-label="Close">&times;</button>
+      <h2 class="mb-2" style="font-size:1.8rem;">Select Your Role</h2>
+      <p class="text-muted mb-3">How would you like to continue?</p>
+      <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
+        <button class="role-card" id="roleStudent">
+          <i class="fas fa-user-graduate fa-3x text-teal mb-2"></i>
+          <div class="role-label">Student</div>
+        </button>
+        <button class="role-card" id="roleAdmin">
+          <i class="fas fa-shield-alt fa-3x text-purple mb-2"></i>
+          <div class="role-label">Admin</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CONFIRM MODAL (generic) ========== -->
+  <div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true">
+    <div class="modal-content glass-panel text-center" style="max-width:380px;">
+      <h3 class="mb-2" id="confirmTitle">Are you sure?</h3>
+      <p class="text-muted mb-3" id="confirmMsg">This action cannot be undone.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;">
+        <button class="btn btn-secondary" id="confirmCancel">Cancel</button>
+        <button class="btn btn-primary" id="confirmOk">Yes, Proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TOAST NOTIFICATION ========== -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Main app -->
+  <script src="static/js/app.js"></script>
+</body>
+</html>

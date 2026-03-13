@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - AOQRWE{% endblock %}
+
+{% block content %}
+<div class="dashboard-header glass-panel mb-3">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2><i class="fas {% if is_teacher %}fa-chalkboard-teacher{% else %}fa-shield-alt{% endif %} text-accent"></i> {% if is_teacher %}Teacher{% else %}Administrator{% endif %} Portal</h2>
+            <p class="text-muted">Welcome, {{ session.username }} | <a href="{{ url_for('logout') }}" class="text-accent">Logout</a></p>
+        </div>
+        <div class="quick-stats" style="display: flex; gap: 1.5rem; text-align: center;">
+            <div class="stat">
+                <div class="text-teal font-bold" style="font-size: 1.5rem;">{{ stats.users }}</div>
+                <div class="text-muted small">Students</div>
+            </div>
+            <div class="stat">
+                <div class="text-purple font-bold" style="font-size: 1.5rem;">{{ stats.subjects }}</div>
+                <div class="text-muted small">Quizzes</div>
+            </div>
+            <div class="stat">
+                <div class="text-orange font-bold" style="font-size: 1.5rem;">{{ stats.attempts }}</div>
+                <div class="text-muted small">Attempts</div>
+            </div>
+            <div class="stat">
+                <div class="text-accent font-bold" style="font-size: 1.5rem;">{{ stats.avg_score }}%</div>
+                <div class="text-muted small">Avg Score</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Add New Subject Bank -->
+    <div class="glass-card pd-2">
+        <h3><i class="fas fa-plus-circle text-teal"></i> Create Subject Bank</h3>
+        <form action="{{ url_for('add_subject') }}" method="POST" class="mt-2">
+            <div class="form-group-flat">
+                <input type="text" name="name" placeholder="Subject Name (e.g. Mathematics)" required class="form-control-cool">
+            </div>
+            <div class="form-group-flat">
+                <textarea name="description" placeholder="Brief Description..." rows="2" class="form-control-cool"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Bank</button>
+        </form>
+    </div>
+
+    <!-- List of Existing Subject Banks -->
+    <div class="glass-card pd-2 span-2">
+        <h3><i class="fas fa-database text-purple"></i> Manage Subject Banks</h3>
+        <div class="banks-list mt-2">
+            {% if subjects %}
+                {% for subject in subjects %}
+                <div class="bank-item glass-panel-light">
+                    <div class="bank-info">
+                        <h4>{{ subject.name }}</h4>
+                        <p class="text-muted small">{{ subject.description }}</p>
+                    </div>
+                    <div class="bank-actions">
+                        <a href="{{ url_for('manage_questions', subject_id=subject.id) }}" class="btn btn-accent btn-sm"><i class="fas fa-edit"></i> Manage Questions</a>
+                        <form action="{{ url_for('delete_subject', subject_id=subject.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this Subject Bank and ALL its questions?');">
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted text-center pd-2">No Subject Banks found. Create one to get started.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
