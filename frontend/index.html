@@ -24,6 +24,9 @@
     <div class="nav-brand">
       <span class="brand-logo neon-text">AOQRWE</span>
     </div>
+    <div class="nav-center" id="navCenter">
+      <!-- Start button shown only when not logged in -->
+    </div>
     <div class="nav-actions" id="navActions">
       <!-- Populated by JS based on auth state -->
     </div>
@@ -133,20 +136,48 @@
     </div>
   </div>
 
-  <!-- ========== ROLE SELECTION MODAL (after clicking Start) ========== -->
-  <div class="modal-overlay" id="roleModal" role="dialog" aria-modal="true" aria-label="Select Role">
-    <div class="modal-content glass-panel text-center" style="max-width:380px;">
-      <button class="close-modal" id="closeRoleModal" aria-label="Close">&times;</button>
-      <h2 class="mb-2" style="font-size:1.8rem;">Select Your Role</h2>
-      <p class="text-muted mb-3">How would you like to continue?</p>
-      <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;">
-        <button class="role-card" id="roleStudent">
-          <i class="fas fa-user-graduate fa-3x text-teal mb-2"></i>
-          <div class="role-label">Student</div>
+  <!-- ========== DASHBOARD SELECTION MODAL (after clicking Start 🚀) ========== -->
+  <div class="modal-overlay" id="dashboardModal" role="dialog" aria-modal="true" aria-label="Select Dashboard">
+    <div class="modal-content glass-panel text-center" style="max-width:460px;">
+      <button class="close-modal" id="closeDashboardModal" aria-label="Close">&times;</button>
+      <h2 class="mb-1" style="font-size:1.8rem;">Select Dashboard</h2>
+      <p class="text-muted mb-3">Choose how you want to continue with AOQRWE</p>
+      <div class="dashboard-select-grid">
+        <button class="dash-select-card" id="goUserDashboard">
+          <div class="dash-select-icon user-icon">
+            <i class="fas fa-user-graduate fa-3x"></i>
+          </div>
+          <div class="dash-select-label">User Dashboard</div>
+          <div class="dash-select-sub">Take exams &amp; view results</div>
         </button>
-        <button class="role-card" id="roleAdmin">
-          <i class="fas fa-shield-alt fa-3x text-purple mb-2"></i>
-          <div class="role-label">Admin</div>
+        <button class="dash-select-card" id="goAdminDashboard">
+          <div class="dash-select-icon admin-icon">
+            <i class="fas fa-shield-alt fa-3x"></i>
+          </div>
+          <div class="dash-select-label">Admin Dashboard</div>
+          <div class="dash-select-sub">Manage subjects &amp; questions</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SUBMIT CONFIRM MODAL (checkbox-based) ========== -->
+  <div class="modal-overlay" id="submitConfirmModal" role="dialog" aria-modal="true">
+    <div class="modal-content glass-panel text-center" style="max-width:420px;">
+      <div class="submit-confirm-icon">
+        <i class="fas fa-paper-plane fa-3x text-teal"></i>
+      </div>
+      <h3 class="mb-2 mt-2">Submit Exam?</h3>
+      <p class="text-muted mb-3">Please confirm before submitting. This action cannot be undone.</p>
+      <label class="confirm-checkbox-label" id="submitCheckLabel">
+        <input type="checkbox" id="submitConfirmCheck" />
+        <span class="checkmark-box"></span>
+        I want to submit my exam
+      </label>
+      <div class="flex-row mt-3" style="justify-content:center;gap:1rem;">
+        <button class="btn btn-secondary" id="submitConfirmCancel">Cancel</button>
+        <button class="btn btn-primary" id="submitConfirmOk" disabled>
+          <i class="fas fa-check"></i> Submit Now
         </button>
       </div>
     </div>
@@ -169,8 +200,8 @@
 
   <!-- jsPDF for PDF export -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <!-- Chart.js for analytics -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- html2canvas for PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <!-- Main app -->
   <script src="static/js/app.js"></script>
 </body>
